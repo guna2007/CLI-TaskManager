@@ -1,0 +1,11 @@
+# Ignore Python cache files and folders
+__pycache__/
+*.pyc
+
+# Ignore virtual environments
+venv/
+.env/
+
+# Ignore system/IDE-specific files
+.DS_Store
+*.log
