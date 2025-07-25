@@ -25,6 +25,7 @@ class InteractiveTaskManager:
         print("7. Update Task")
         print("8. Remove Task")
         print("9. Show Task Details")
+        print("10. Clear All Tasks")
         print("0. Exit")
         print("="*50)
 
@@ -180,13 +181,29 @@ class InteractiveTaskManager:
         except ValueError:
             print("Please enter a valid task ID!")
 
+    def clear_all_tasks(self):
+        """Clear all tasks after confirmation"""
+        all_tasks = self.task_manager.list_tasks()
+        if not all_tasks:
+            print("\nNo tasks to clear.")
+            return
+        
+        print(f"\nYou have {len(all_tasks)} task(s).")
+        confirm = input("Are you sure you want to delete ALL tasks? This cannot be undone! (type 'DELETE' to confirm): ").strip()
+        
+        if confirm == "DELETE":
+            self.task_manager.clear_all_tasks()
+            print("✓ All tasks have been cleared!")
+        else:
+            print("Task clearing cancelled.")
+
     def run(self):
         """Run the interactive task manager"""
         print("Welcome to CLI Task Manager!")
         
         while True:
             self.display_menu()
-            choice = input("\nEnter your choice (0-9): ").strip()
+            choice = input("\nEnter your choice (0-10): ").strip()
 
             if choice == "1":
                 self.add_task()
@@ -206,11 +223,13 @@ class InteractiveTaskManager:
                 self.remove_task()
             elif choice == "9":
                 self.show_task_details()
+            elif choice == "10":
+                self.clear_all_tasks()
             elif choice == "0":
                 print("\nThank you for using CLI Task Manager!")
                 break
             else:
-                print("\nInvalid choice! Please enter a number between 0-9.")
+                print("\nInvalid choice! Please enter a number between 0-10.")
 
             input("\nPress Enter to continue...")
 

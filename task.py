@@ -98,6 +98,11 @@ class TaskManager:
         """List tasks by priority level"""
         return [task for task in self.tasks if task["priority"] == priority]
 
+    def clear_all_tasks(self):
+        """Clear all tasks"""
+        self.tasks = []
+        self.save_tasks()
+
 
 class Task:
     def __init__(self, id, title, description="Task to be done", priority=5, status="pending"):

@@ -61,6 +61,10 @@ def main():
     show_parser = subparsers.add_parser("show", help="Show a specific task")
     show_parser.add_argument("id", type=int, help="Task ID")
 
+    # Clear all tasks command
+    clear_parser = subparsers.add_parser("clear", help="Clear all tasks")
+    clear_parser.add_argument("--confirm", action="store_true", help="Skip confirmation prompt")
+
     args = parser.parse_args()
 
     if not args.command:
@@ -131,6 +135,23 @@ def main():
                 print(f"Completed: {task['completed_at']}")
         else:
             print(f"✗ Task {args.id} not found")
+
+    elif args.command == "clear":
+        all_tasks = task_manager.list_tasks()
+        if not all_tasks:
+            print("No tasks to clear.")
+        else:
+            if args.confirm:
+                task_manager.clear_all_tasks()
+                print(f"✓ All {len(all_tasks)} task(s) cleared!")
+            else:
+                print(f"You have {len(all_tasks)} task(s).")
+                confirm = input("Are you sure you want to delete ALL tasks? This cannot be undone! (type 'DELETE' to confirm): ").strip()
+                if confirm == "DELETE":
+                    task_manager.clear_all_tasks()
+                    print("✓ All tasks have been cleared!")
+                else:
+                    print("Task clearing cancelled.")
 
 
 if __name__ == "__main__":
